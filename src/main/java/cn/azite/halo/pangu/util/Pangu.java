@@ -158,26 +158,26 @@ public class Pangu {
                     }
 
                     /*
-                      处理 a 标签夹在文本节点之间的情况
+                      处理标签被夹在文本节点之间的情况
 
                       如 <p>测试<a>Link</a>测试</p>
                       将被格式化成 <p>测试 <a>Link</a> 测试</p>
                      */
-                    if (parentElem.tagName().equals("a")) {
+                    if (!parentElem.tagName().equals("p")) {
                         if (parentElem.previousSibling() instanceof TextNode previousTextNode) {
                             String previousText = previousTextNode.getWholeText();
-                            char previousChar = getLastChar(previousText);
-                            if (!isLetterOrDigit(previousChar) && previousChar != ' ' && isLetterOrDigit(getFirstChar(text))) {
-                                previousText += " ";
-                                previousTextNode.text(previousText);
+                            String spacedText = spacingText(previousText + text.charAt(0));
+                            spacedText = spacedText.substring(0, spacedText.length() - 1);
+                            if (!spacedText.equals(previousText)) {
+                                previousTextNode.text(spacedText);
                             }
                         }
                         if (parentElem.nextSibling() instanceof TextNode nextTextNode) {
                             String nextText = nextTextNode.getWholeText();
-                            char nextChar = getFirstChar(nextText);
-                            if (!isLetterOrDigit(nextChar) && nextChar != ' ' && isLetterOrDigit(getLastChar(text))) {
-                                nextText = " " + nextText;
-                                nextTextNode.text(nextText);
+                            String spacedText = spacingText(text.charAt(text.length() - 1) + nextText);
+                            spacedText = spacedText.substring(1);
+                            if (!spacedText.equals(nextText)) {
+                                nextTextNode.text(spacedText);
                             }
                         }
                     }
@@ -186,15 +186,4 @@ public class Pangu {
         });
     }
 
-    private static char getFirstChar(String text) {
-        return text.charAt(0);
-    }
-
-    private static char getLastChar(String text) {
-        return text.charAt(text.length() - 1);
-    }
-
-    private static boolean isLetterOrDigit(char ch) {
-        return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9');
-    }
 }
