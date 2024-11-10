@@ -1,76 +1,29 @@
-# plugin-starter
+# Halo Plugin Pangu
 
-Halo 2.0 插件开发快速开始模板。
+自动对文章内容执行 [Pangu](https://github.com/vinta/pangu.js) 格式化，在中英文之间加入空格。
 
-## 开发环境
+## 配置
 
-插件开发的详细文档请查阅：<https://docs.halo.run/developer-guide/plugin/introduction>
+### 格式化方案
 
-所需环境：
+#### 1. 浏览器端格式化（默认）
 
-1. Java 17
-2. Node 20
-3. pnpm 9
-4. Docker (可选)
+在浏览器中注入 pangu.js 对网页文本格式化。
 
-克隆项目：
+该方案能够处理所有页面的任意内容，但由于需要 dom 加载完成后才能执行，可能会有文字位移的情况发生。
 
-```bash
-git clone git@github.com:halo-sigs/plugin-starter.git
+#### 2. 服务器端格式化
 
-# 或者当你 fork 之后
+在后端对文章格式化后再发送给浏览器。
 
-git clone git@github.com:{your_github_id}/plugin-starter.git
-```
+该方案避免了文字位移的问题，但是可能会有处理错误的情况发生，并且只能处理文章和自定义页面的内容。
 
-```bash
-cd path/to/plugin-starter
-```
+### 文章内容选择器
 
-### 运行方式 1（推荐）
+> 该配置仅限浏览器端格式化可用
 
-> 此方式需要本地安装 Docker
+填写需要格式化的区域的选择器，如 `#content` ，不填则默认为 `body`（即整个页面）。
 
-```bash
-# macOS / Linux
-./gradlew pnpmInstall
+## TODO
 
-# Windows
-./gradlew.bat pnpmInstall
-```
-
-```bash
-# macOS / Linux
-./gradlew haloServer
-
-# Windows
-./gradlew.bat haloServer
-```
-
-执行此命令后，会自动创建一个 Halo 的 Docker 容器并加载当前的插件，更多文档可查阅：<https://docs.halo.run/developer-guide/plugin/basics/devtools>
-
-### 运行方式 2
-
-> 此方式需要使用源码运行 Halo
-
-编译插件：
-
-```bash
-# macOS / Linux
-./gradlew build
-
-# Windows
-./gradlew.bat build
-```
-
-修改 Halo 配置文件：
-
-```yaml
-halo:
-  plugin:
-    runtime-mode: development
-    fixedPluginPath:
-      - "/path/to/plugin-starter"
-```
-
-最后重启 Halo 项目即可。
+- [ ] 服务器端格式化支持处理文章概览和标题

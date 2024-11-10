@@ -1,0 +1,24 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: halo-plugin-pangu-settings
+spec:
+  forms:
+    - group: config
+      label: 配置
+      formSchema:
+        - $formkit: select
+          name: solution
+          label: "格式化方案"
+          value: "browser"
+          options:
+            - label: "浏览器端格式化"
+              value: "browser"
+            - label: "服务器端格式化"
+              value: "server"
+          help: "浏览器端格式化会在网页中注入 pangu.js 进行格式化，而服务器端格式化则是在后端对文本提前处理"
+        - $formkit: text
+          name: selector
+          label: "文章内容选择器"
+          value: ""
+          help: "填写需要格式化的区域的选择器，如 #content ，不填则默认为 body（仅限浏览器端格式化）"

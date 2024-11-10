@@ -4,19 +4,21 @@ apiVersion: plugin.halo.run/v1alpha1
 kind: Plugin
 metadata:
   # The name defines how the plugin is invoked, A unique name
-  name: starter
+  name: halo-plugin-pangu
 spec:
   enabled: true
-  requires: ">=2.20.0"
+  requires: ">=2.0.0"
   author:
-    name: Halo
-    website: https://github.com/halo-dev
+    name: Azite
+    website: https://github.com/Aziteee
   logo: logo.png
-  homepage: https://github.com/halo-dev/plugin-starter#readme
-  repo: https://github.com/halo-dev/plugin-starter
-  issues: https://github.com/halo-dev/plugin-starter/issues
-  displayName: "插件快速开始模板"
-  description: "这是一个插件快速开始模板"
+  configMapName: halo-plugin-pangu-configmap
+  settingName: halo-plugin-pangu-settings
+  homepage: https://github.com/Aziteee/halo-plugin-pangu#readme
+  repo: https://github.com/Aziteee/halo-plugin-pangu
+  issues: https://github.com/Aziteee/halo-plugin-pangu/issues
+  displayName: "盘古"
+  description: "自动对文章内容执行 Pangu 格式化，在中英文之间加入空格"
   license:
     - name: "GPL-3.0"
-      url: "https://github.com/halo-dev/plugin-starter/blob/main/LICENSE"
+      url: "https://github.com/Aziteee/halo-plugin-pangu/blob/main/LICENSE"
