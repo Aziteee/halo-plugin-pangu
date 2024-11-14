@@ -170,7 +170,7 @@ public class Pangu {
                      * 如 <p>测试<a>Link</a>测试</p>
                      * 将被格式化成 <p>测试 <a>Link</a> 测试</p>
                      */
-                    if (!parentElem.tagName().equals("p")) {
+                    if (isProcessSpaces && !parentElem.tagName().equals("p")) {
                         if (parentElem.previousSibling() instanceof TextNode previousTextNode) {
                             String previousText = previousTextNode.getWholeText();
                             String spacedText = spacingText(previousText + text.charAt(0));
