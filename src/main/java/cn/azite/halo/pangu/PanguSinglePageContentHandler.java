@@ -19,16 +19,18 @@ public class PanguSinglePageContentHandler implements ReactiveSinglePageContentH
     @Override
     public Mono<SinglePageContentContext> handle(@NonNull SinglePageContentContext singlePageContent) {
         return settingFetcher.fetch(PanguSetting.GROUP, PanguSetting.class)
-            .map(setting -> {
-                if (setting.solution().equals("server")) {
-                    String oldContent = singlePageContent.getContent();
-                    Document document = Jsoup.parse(oldContent);
+                .map(setting -> {
+                    boolean isServerSpacing = setting.solution().equals(PanguSetting.Solution.SERVER.value);
+                    boolean isProcessQuotes = setting.isProcessQuotes();
+                    if (isServerSpacing || isProcessQuotes) {
+                        String oldContent = singlePageContent.getContent();
+                        Document document = Jsoup.parse(oldContent);
 
-                    Pangu.spacingDoc(document);
+                        Pangu.execute(document, isServerSpacing, isProcessQuotes);
 
-                    singlePageContent.setContent(document.outerHtml());
-                }
-                return singlePageContent;
-            });
+                        singlePageContent.setContent(document.outerHtml());
+                    }
+                    return singlePageContent;
+                });
     }
 }

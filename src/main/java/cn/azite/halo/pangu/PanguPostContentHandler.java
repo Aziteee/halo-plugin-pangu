@@ -19,17 +19,19 @@ public class PanguPostContentHandler implements ReactivePostContentHandler {
     @Override
     public Mono<PostContentContext> handle(@NonNull PostContentContext postContent) {
         return settingFetcher.fetch(PanguSetting.GROUP, PanguSetting.class)
-            .map(setting -> {
-                if (setting.solution().equals("server")) {
-                    String oldContent = postContent.getContent();
-                    Document document = Jsoup.parse(oldContent);
+                .map(setting -> {
+                    boolean isServerSpacing = setting.solution().equals(PanguSetting.Solution.SERVER.value);
+                    boolean isProcessQuotes = setting.isProcessQuotes();
+                    if (isServerSpacing || isProcessQuotes) {
+                        String oldContent = postContent.getContent();
+                        Document document = Jsoup.parse(oldContent);
 
-                    Pangu.spacingDoc(document);
+                        Pangu.execute(document, isServerSpacing, isProcessQuotes);
 
-                    postContent.setContent(document.outerHtml());
-                }
-                return postContent;
-            });
+                        postContent.setContent(document.outerHtml());
+                    }
+                    return postContent;
+                });
     }
 
 }

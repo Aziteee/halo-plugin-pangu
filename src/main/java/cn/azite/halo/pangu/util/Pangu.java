@@ -8,18 +8,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Paranoid text spacing for good readability, to automatically insert whitespace between CJK (Chinese, Japanese,
+ * Paranoid text spacing for good readability, to automatically insert
+ * whitespace between CJK (Chinese, Japanese,
  * Korean), half-width English, digit and symbol characters.
  *
  * <p>
- * These whitespaces between English and Chinese characters are called "Pangu Spacing" by sinologist, since it separate
- * the confusion between full-width and half-width characters. Studies showed that who dislike to add whitespace between
- * English and Chinese characters also have relationship problem. Almost 70 percent of them will get married to the one
- * they don't love, the rest only can left the heritage to their cat. Indeed, love and writing need some space in good
+ * These whitespaces between English and Chinese characters are called "Pangu
+ * Spacing" by sinologist, since it separate
+ * the confusion between full-width and half-width characters. Studies showed
+ * that who dislike to add whitespace between
+ * English and Chinese characters also have relationship problem. Almost 70
+ * percent of them will get married to the one
+ * they don't love, the rest only can left the heritage to their cat. Indeed,
+ * love and writing need some space in good
  * time.
  * </p>
  *
- * <p><a href="https://ld246.com/article/1472639605458">為什麼你們就是不能加個空格呢？</a></p>
+ * <p>
+ * <a href="https://ld246.com/article/1472639605458">為什麼你們就是不能加個空格呢？</a>
+ * </p>
  *
  * @author Vinta Chen
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
@@ -29,7 +36,8 @@ import java.util.regex.Pattern;
 public class Pangu {
 
     /**
-     * You should use the constructor to create a {@code Pangu} object with default values.
+     * You should use the constructor to create a {@code Pangu} object with default
+     * values.
      */
     public Pangu() {
     }
@@ -41,56 +49,47 @@ public class Pangu {
      * ANS: Alphabet, Number, Symbol
      */
     private static final Pattern CJK_ANS = Pattern.compile(
-        "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-            + "([a-z0-9`~@\\$%\\^&\\*\\-_\\+=\\|\\\\/])",
-        Pattern.CASE_INSENSITIVE
-    );
+            "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
+                    + "([a-z0-9`~@\\$%\\^&\\*\\-_\\+=\\|\\\\/])",
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern ANS_CJK = Pattern.compile(
-        "([a-z0-9`~!\\$%\\^&\\*\\-_\\+=\\|\\\\;:,\\./\\?])"
-            + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])",
-        Pattern.CASE_INSENSITIVE
-    );
+            "([a-z0-9`~!\\$%\\^&\\*\\-_\\+=\\|\\\\;:,\\./\\?])"
+                    + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])",
+            Pattern.CASE_INSENSITIVE);
 
     private static final Pattern CJK_QUOTE = Pattern.compile(
-        "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-            + "([\"'])"
-    );
+            "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
+                    + "([\"'])");
 
     private static final Pattern QUOTE_CJK = Pattern.compile(
-        "([\"'])"
-            + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-    );
+            "([\"'])"
+                    + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])");
 
     private static final Pattern FIX_QUOTE = Pattern.compile("([\"'])(\\s*)(.+?)(\\s*)([\"'])");
 
     private static final Pattern CJK_BRACKET_CJK = Pattern.compile(
-        "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-            + "([\\({\\[]+(.*?)[\\)}\\]]+)"
-            + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-    );
+            "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
+                    + "([\\({\\[]+(.*?)[\\)}\\]]+)"
+                    + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])");
 
     private static final Pattern CJK_BRACKET = Pattern.compile(
-        "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-            + "([\\(\\){}\\[\\]<>])"
-    );
+            "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
+                    + "([\\(\\){}\\[\\]<>])");
 
     private static final Pattern BRACKET_CJK = Pattern.compile(
-        "([\\(\\){}\\[\\]<>])"
-            + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-    );
+            "([\\(\\){}\\[\\]<>])"
+                    + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])");
 
     private static final Pattern FIX_BRACKET = Pattern.compile("([(\\({\\[)]+)(\\s*)(.+?)(\\s*)([\\)}\\]]+)");
 
     private static final Pattern CJK_HASH = Pattern.compile(
-        "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-            + "(#(\\S+))"
-    );
+            "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
+                    + "(#(\\S+))");
 
     private static final Pattern HASH_CJK = Pattern.compile(
-        "((\\S+)#)"
-            + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])"
-    );
+            "((\\S+)#)"
+                    + "([\\p{InHiragana}\\p{InKatakana}\\p{InBopomofo}\\p{InCJKCompatibilityIdeographs}\\p{InCJKUnifiedIdeographs}])");
 
     /**
      * Performs a paranoid text spacing on {@code text}.
@@ -146,22 +145,30 @@ public class Pangu {
     /**
      * @author Azite
      */
-    public static void spacingDoc(Document document) {
+    public static void execute(Document document, boolean isProcessSpaces, boolean isProcessQuotes) {
         document.traverse((node, depth) -> {
             if (node instanceof TextNode textNode) {
                 final Node parent = textNode.parent();
                 if (parent instanceof Element parentElem) {
                     String text = textNode.getWholeText();
                     if (!parentElem.tagName().equals("code")) {
-                        text = spacingText(text);
+                        if (isProcessSpaces) {
+                            text = spacingText(text);
+                        }
+                        if (isProcessQuotes) {
+                            text = text.replace("“", "「");
+                            text = text.replace("”", "」");
+                            text = text.replace("‘", "『");
+                            text = text.replace("’", "』");
+                        }
                         textNode.text(text);
                     }
 
                     /*
-                      处理标签被夹在文本节点之间的情况
-
-                      如 <p>测试<a>Link</a>测试</p>
-                      将被格式化成 <p>测试 <a>Link</a> 测试</p>
+                     * 处理标签被夹在文本节点之间的情况
+                     * 
+                     * 如 <p>测试<a>Link</a>测试</p>
+                     * 将被格式化成 <p>测试 <a>Link</a> 测试</p>
                      */
                     if (!parentElem.tagName().equals("p")) {
                         if (parentElem.previousSibling() instanceof TextNode previousTextNode) {

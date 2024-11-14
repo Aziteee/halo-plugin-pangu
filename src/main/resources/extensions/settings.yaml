@@ -22,3 +22,8 @@ spec:
           label: "文章内容选择器"
           value: ""
           help: "填写需要格式化的区域的选择器，如 #content ，不填则默认为 body（仅限浏览器端格式化）"
+        - $formkit: checkbox
+          name: isProcessQuotes
+          label: "替换引号"
+          value: false
+          help: "将普通全角引号（“ ” ‘ ’）替换成直角引号（「 」 『 』）"
