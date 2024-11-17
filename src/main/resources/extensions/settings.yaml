@@ -16,6 +16,8 @@ spec:
               value: "browser"
             - label: "服务器端格式化"
               value: "server"
+            - label: "同时启用"
+              value: "both"
           help: "浏览器端格式化会在网页中注入 pangu.js 进行格式化，而服务器端格式化则是在后端对文本提前处理"
         - $formkit: text
           name: selector

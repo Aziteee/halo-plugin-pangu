@@ -20,7 +20,7 @@ public class PanguPostContentHandler implements ReactivePostContentHandler {
     public Mono<PostContentContext> handle(@NonNull PostContentContext postContent) {
         return settingFetcher.fetch(PanguSetting.GROUP, PanguSetting.class)
                 .map(setting -> {
-                    boolean isServerSpacing = setting.solution().equals(PanguSetting.Solution.SERVER.value);
+                    boolean isServerSpacing = setting.isServerSpacing();
                     boolean isProcessQuotes = setting.isProcessQuotes();
                     if (isServerSpacing || isProcessQuotes) {
                         String oldContent = postContent.getContent();

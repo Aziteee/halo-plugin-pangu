@@ -21,7 +21,7 @@ public class PanguHeadProcessor implements TemplateHeadProcessor{
         IElementModelStructureHandler structureHandler) {
         return settingFetcher.fetch(PanguSetting.GROUP, PanguSetting.class)
             .doOnNext(setting -> {
-                if (setting.solution().equals(PanguSetting.Solution.BROWSER.value)) {
+                if (setting.isBrowserSpacing()) {
                     final IModelFactory modelFactory = context.getModelFactory();
                     model.add(modelFactory.createText(PanguJSInjector.getScript(setting.selector())));
                 }
